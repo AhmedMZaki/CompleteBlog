@@ -30,18 +30,34 @@
         <div class="row">
           <ul class="list-group">
             @foreach ($post->comments as $comment)
-              <p class="list-group-item"><b>{{$comment->user->name}}: </b> {{$comment->body}} &#32 <small>Created On  {{$post->created_at->toFormattedDateString()}}</small></p>
+              <article class="list-group-item"><b>{{$comment->user->name}}: </b> {{$comment->body}}
+                 &#32 <small>Created On  {{$post->created_at->toFormattedDateString()}}</small>
+                 @if (Auth::check())
+                   <div class="dropdown">
+                       <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
+                         Options
+                       <span class="caret"></span></button>
+                       <ul class="dropdown-menu">
+                         <li><a href="/posts">Replay</a></li>
+                         @if ((auth()->user()->id == $post->user_id))
+                           <li><a href="/posts/{{$post->id}}">Edit</a></li>
+                           <li><a href="/posts/{{$post->id}}">Delete</a></li>
+                         @endif
+                       </ul>
+                   </div>
+                 @endif
+               </article>
               <br>
             @endforeach
           </ul>
         </div>
       @endif
       <br>
-      @if (Auth::check())
+      @if (Auth::check() && (auth()->user()->id == $post->user->id))
         <div class="row">
           <div class="col-lg-8">
               <form method="post" action="/posts/{{$post->id}}">
-              {{ csrf_field() }}
+                      {{ csrf_field() }}
             <div class="form-group">
               <label for="body">Write Comment</label>
               <textarea name="body" class="form-control" id="body" required></textarea>
