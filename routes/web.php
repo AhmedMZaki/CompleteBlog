@@ -19,6 +19,8 @@ Route::get('/services','PagesController@services');
 
 Route::resource('/posts','PostsController');
 
+Route::resource('/posts/{id}/','CommentController');
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

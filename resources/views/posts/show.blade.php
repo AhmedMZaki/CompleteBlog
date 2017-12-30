@@ -25,6 +25,32 @@
               </div>
           </div>
       </div>
+      <br>
+      @if (count($post->comments) > 0)
+        <div class="row">
+          <ul class="list-group">
+            @foreach ($post->comments as $comment)
+              <p class="list-group-item"><b>{{$comment->user->name}}: </b> {{$comment->body}} &#32 <small>Created On  {{$post->created_at->toFormattedDateString()}}</small></p>
+
+            @endforeach
+          </ul>
+        </div>
+      @endif
+      <br>
+      <div class="row">
+        <div class="col-lg-8">
+            <form method="post" action="/posts/{{$post->id}}">
+            {{ csrf_field() }}
+          <div class="form-group">
+            <label for="body">Write Comment</label>
+            <textarea name="body" class="form-control" id="body" required></textarea>
+          </div>
+          <div class="form-group">
+              <button type="submit" class="btn btn-primary">Comment</button>
+          </div>
+        </form>
+        </div>
+      </div>
     </div>
 
 </div>
