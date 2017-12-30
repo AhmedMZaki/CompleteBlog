@@ -18,11 +18,9 @@ class CommentController extends Controller
       $this->validate($request,[
         'body'=> 'required|min:1'
       ]);
-      $dd=Post::post_id();
-      dd($dd);
       $comment=new Comment;
       $comment->user_id=auth()->user()->id;
-      $comment->post_id=
+      $comment->post_id=4;
       $comment->body=$request['body'];
       $comment->save();
       return redirect('/posts');
