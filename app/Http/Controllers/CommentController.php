@@ -13,17 +13,18 @@ use App\Auth;
 class CommentController extends Controller
 {
 
-    public function store(Request $request)
+    public function store(Request $request,$id)
     {
       $this->validate($request,[
         'body'=> 'required|min:1'
       ]);
+      $post=Post::find($id);
       $comment=new Comment;
       $comment->user_id=auth()->user()->id;
-      $comment->post_id=4;
+      $comment->post_id=$post->id;
       $comment->body=$request['body'];
       $comment->save();
-      return redirect('/posts');
+      return redirect("/posts/".$post->id);
     }
 
 }
